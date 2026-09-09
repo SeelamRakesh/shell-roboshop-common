@@ -33,7 +33,7 @@ VALIDATE(){
 
 print_total_time(){
     SCRIPT_END_TIME=$(date +%s)
-    TOTAL_TIME=$(($SCRIPT_START_TIME - $SCRIPT_END_TIME))
+    TOTAL_TIME=$(($SCRIPT_END_TIME - $SCRIPT_START_TIME))
     echo -e "$(date "+%d-%m-%Y %H:%M:%S") | Script executed in $G $TOTAL_TIME $N" | tee -a $LOG_FILE
 }
 
