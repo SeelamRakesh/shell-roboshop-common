@@ -26,6 +26,7 @@ check_root(){
 VALIDATE(){
   if [ $1 -ne 0 ]; then
    echo -e "$(date "+%d-%m-%Y %H:%M:%S") | $2 $R FAILURE $N" | tee -a $LOG_FILE
+   exit 1
   else 
    echo -e "$(date "+%d-%m-%Y %H:%M:%S") | $2 $G SUCCESS $N" | tee -a $LOG_FILE
   fi
@@ -40,6 +41,9 @@ nodejs_setup(){
 
     dnf install nodejs -y &>> $LOG_FILE
     VALIDATE $? "Installing Nodejs"
+    
+    npm install &>> $LOG_FILE
+    VALIDATE $? "Installing Dependencies" 
 }
 
 app_setup(){
@@ -61,12 +65,9 @@ app_setup(){
     VALIDATE $? "Removing existing code"
 
     cd /app 
-    unzip /tmp/catalogue.zip
+    unzip /tmp/catalogue.zip &>> $LOG_FILE
     VALIDATE $? "Unzipping catalogue code"
 
-    cd /app 
-    npm install &>> $LOG_FILE
-    VALIDATE $? "Installing Dependencies" 
 }
 
 systemd_setup(){
