@@ -12,7 +12,7 @@ MONGODB_HOST=mongodb.rakesh.bond
 MYSQL_HOST=mysql.rakesh.bond
 SCRIPT_START_TIME=$(date +%s) 
 
-mkdir -p $LOG_FILE
+mkdir -p $LOG_FOLDER
 
 echo "$(date "+%d-%m-%Y %H:%M:%S") Script execution started at $(date)" | tee -a >> LOG_FILE
 
