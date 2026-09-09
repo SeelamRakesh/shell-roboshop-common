@@ -27,6 +27,7 @@ VALIDATE(){
    echo -e "$(date "+%d-%m-%Y %H:%M:%S") | $2 $R FAILURE $N" | tee -a >> LOG_FILE
   else 
    echo -e "$(date "+%d-%m-%Y %H:%M:%S") | $1 $G SUCCESS $N" | tee -a >> LOG_FILE
+  fi
 }
 
 print_total_time(){
