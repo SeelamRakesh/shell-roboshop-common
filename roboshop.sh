@@ -2,7 +2,7 @@
 
 SG_ID="sg-0e17db6ab1dfaa76a"
 AMI_ID="ami-0220d79f3f480ecf5"
-HOST_ID="Z09038562YAIT9N88QB69"
+HOST_ID="Z020801033VIO4NL0L0YA"
 DOMAIN_NAME="rakesh.bond"
 
 for instance in $@
