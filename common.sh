@@ -58,25 +58,27 @@ app_setup(){
     mkdir -p /app 
     VALIDATE $? "Creating app directory"
 
-    curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>> $LOG_FILE
+    curl -o /tmp/$APP_NAME.zip https://roboshop-artifacts.s3.amazonaws.com/$APP_NAME-v3.zip &>> $LOG_FILE
     VALIDATE $? "Downloding application code"
 
     rm -rf /app/*
     VALIDATE $? "Removing existing code"
 
     cd /app 
-    unzip /tmp/catalogue.zip &>> $LOG_FILE
-    VALIDATE $? "Unzipping catalogue code"
+    unzip /tmp/$APP_NAME.zip &>> $LOG_FILE
+    VALIDATE $? "Unzipping $APP_NAME code"
 
 }
 
-systemd_setup(){
-    cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
-    VALIDATE $? "Copying catalogue service"
 
-    systemctl enable catalogue 
-    systemctl start catalogue
-    VALIDATE $? "Enabling and staring Catalogue"
+
+systemd_setup(){
+    cp $SCRIPT_DIR/$APP_NAME.service /etc/systemd/system/$APP_NAME.service
+    VALIDATE $? "Copying $APP_NAME service"
+
+    systemctl enable $APP_NAME 
+    systemctl start $APP_NAME
+    VALIDATE $? "Enabling and staring $APP_NAME"
 }
 
 print_total_time(){
