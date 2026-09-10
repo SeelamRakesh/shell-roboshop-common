@@ -70,8 +70,6 @@ app_setup(){
 
 }
 
-
-
 systemd_setup(){
     cp $SCRIPT_DIR/$APP_NAME.service /etc/systemd/system/$APP_NAME.service
     VALIDATE $? "Copying $APP_NAME service"
