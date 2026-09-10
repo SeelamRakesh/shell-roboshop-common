@@ -2,24 +2,19 @@
 
 source ./common.sh
 
-APP_NAME=redis
 check_root
+APP_NAME=redis
 
-dnf list installed | grep redis &>>$LOG_FILE
-if [ $? -ne 0 ]; then
-    dnf module disable redis -y 
-    dnf module enable redis:7 -y &>>$LOG_FILE
-    dnf install redis -y &>>$LOG_FILE
-    VALIDATE $? "Enabling and installing Redis-7"
-else
-    echo -e "Redis already Installed $Y SKIPPING $N "
-fi 
+dnf module disable redis -y
+dnf module enable redis:7 -y
+VALIDATE $? "Enabling redis:7" 
 
-sed -i -e 's/127.0.0.1/0.0.0.0/g' -e '/protected-mode/ c protected-mode no' /etc/redis/redis.conf
+dnf install redis -y 
+VALIDATE $? "Installing redis"
+
+sed -i -e 's/127.0.0.1/0.0.0.0/' -e 's/protected-mode c yes/protected-mode no/' /etc/redis/redis.conf
 VALIDATE $? "Allowing remote connections"
 
-systemctl enable redis &>>$LOG_FILE
+systemctl enable redis 
 systemctl start redis 
-VALIDATE $?  "Enabling and starting Redis"
-
-print_total_time
+VALIDATE $? "Enabling and starting redis" 
