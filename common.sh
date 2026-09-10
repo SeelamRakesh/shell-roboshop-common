@@ -71,15 +71,24 @@ app_setup(){
 }
 
 java_setup(){
-    dnf install maven -y
+    dnf install maven -y &>> $LOG_FILE
     VALIDATE $? "Installing Java"
 
     cd /app 
-    mvn clean package 
+    mvn clean package &>> $LOG_FILE
     VALIDATE $? "Installing Dependencies" 
 
     mv target/shipping-1.0.jar shipping.jar
     VALIDATE $? "Renaming Shipping" 
+}
+
+python_setup(){
+    dnf install python3 gcc python3-devel -y &>> $LOG_FILE
+    VALIDATE $? "Installing Python" 
+
+    cd /app 
+    pip3 install -r requirements.txt &>> $LOG_FILE
+    VALIDATE $? "Installing dependencies" 
 }
 
 systemd_setup(){
