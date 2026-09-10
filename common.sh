@@ -70,13 +70,30 @@ app_setup(){
 
 }
 
+java_setup(){
+    dnf install maven -y
+    VALIDATE $? "Installing Java"
+
+    cd /app 
+    mvn clean package 
+    VALIDATE $? "Installing Dependencies" 
+
+    mv target/shipping-1.0.jar shipping.jar
+    VALIDATE $? "Renaming Shipping" 
+}
+
 systemd_setup(){
-    cp $SCRIPT_DIR/$APP_NAME.service /etc/systemd/system/$APP_NAME.service
+    cp $SCRIPT_DIR/$APP_NAME.service /etc/systemd/system/$APP_NAME.service &>> $LOG_FILE
     VALIDATE $? "Copying $APP_NAME service"
 
     systemctl enable $APP_NAME 
     systemctl start $APP_NAME
     VALIDATE $? "Enabling and staring $APP_NAME"
+}
+
+app_restart(){
+    systemctl restart shipping
+    VALIDATE $? "Restarting $APP_NAME"
 }
 
 print_total_time(){
